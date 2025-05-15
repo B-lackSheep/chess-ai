@@ -8,6 +8,7 @@ class GameLogic:
         self.player_color = 'W'
         self.move_history = []
         self.last_move = None
+        self.half_move_count = 0
 
     def switch_turn(self):
         self.current_turn = 'B' if self.current_turn == 'W' else 'W'
@@ -26,6 +27,11 @@ class GameLogic:
     def record_move(self, end_pos, move_prefix, beating_suffix=''):
         column = chr(97 + end_pos[0])
         row = str(8 - end_pos[1])
+
+        if move_prefix == 'P' or not 'x' in beating_suffix:
+            self.half_move_count += 1
+        else:
+            self.half_move_count = 0
 
         if move_prefix == 'P':
             move_prefix = ''

@@ -1,12 +1,12 @@
 [NEAT]
 fitness_criterion     = max
 fitness_threshold     = 100.0
-pop_size              = 15
+pop_size              = 50
 reset_on_extinction   = False
 
 [DefaultGenome]
-num_inputs            = 4161
-num_outputs           = 4096
+num_inputs            = 65
+num_outputs           = 128
 num_hidden            = 0
 feed_forward          = True
 activation_default    = sigmoid
@@ -58,3 +58,7 @@ species_elitism       = 2
 [DefaultReproduction]
 elitism               = 2
 survival_threshold    = 0.2
+
+[StockfishFitness]
+stockfish_depth = 6
+evaluation_weight = 0.1

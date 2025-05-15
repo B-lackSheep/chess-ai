@@ -1,3 +1,5 @@
+import sys
+
 import pygame
 from pygame import *
 from board import Board
@@ -141,8 +143,7 @@ def main():
 
     game_running = True
     while game_running:
-        if game_logic.current_turn == 'B':  # Ход AI
-            print(game_logic.current_turn)
+        if game_logic.current_turn == ai_player.color:
             ai_player.make_move(chess_board, game_logic)
 
         game_state = chess_board.check_game_state(game_logic)
@@ -168,7 +169,7 @@ def main():
                     if clicked_x in range(4, 12):
                         clicked_x -= 4
                         if moves and [clicked_x, clicked_y] in moves: # ход
-                            chess_board.move_piece(start_pos, (clicked_x, clicked_y), chess_board, game_logic)
+                            chess_board.move_piece(start_pos, (clicked_x, clicked_y), chess_board, game_logic, menu_manager)
                             game_logic.switch_turn()
                             game_state = selected_piece.checkmate_stalemate(game_logic.current_turn)
 
@@ -211,3 +212,7 @@ def main():
             draw_circles(moves, wind)
 
         clock.tick(60)
+
+    ai_player.engine.quit()
+    pygame.quit()
+    sys.exit()

@@ -1,3 +1,4 @@
+from menu import MenuManager
 from pieces import ChessPiece, Pawn
 import copy
 
@@ -86,7 +87,7 @@ class Board:
             return False
 
 
-    def move_piece(self, start_pos, end_pos, chess_board, game_logic):
+    def move_piece(self, start_pos, end_pos, chess_board, game_logic, menu_manager=None):
         start_x, start_y = start_pos
         end_x, end_y = end_pos
         board = chess_board.board
@@ -148,11 +149,24 @@ class Board:
 
         board[end_y][end_x] = moving_piece
         board[start_y][start_x] = None
+        if isinstance(moving_piece, Pawn):
+            if (moving_piece.color == 'W' and end_y == 0) or (moving_piece.color == 'B' and end_y == 7):
+                if moving_piece.color == game_logic.player_color:
+                    chosen_piece_name = menu_manager.draw_promotion_menu(moving_piece.color)
+                    self.promote_pawn(end_x, end_y, chosen_piece_name)
+                else:
+                    self.promote_pawn(end_x, end_y, chosen_piece_name='Q')
 
         moving_piece.already_moved = True
 
         game_logic.record_move(end_pos, record_prefix, beating_suffix) if beating_suffix \
             else game_logic.record_move(end_pos, record_prefix)
+
+    def promote_pawn(self, x, y, chosen_piece_name=None):
+        piece = self.board[y][x]
+        if isinstance(self.board[y][x], Pawn):
+            new_piece_name = chosen_piece_name if chosen_piece_name else 'Q'
+            self.board[y][x] = ChessPiece(new_piece_name, piece.color, self)
 
 # AI
     def copy(self):
@@ -197,6 +211,65 @@ class Board:
                 if piece and piece.color == current_turn:
                     moves = piece.validate_moves(x, y)
                     for move in moves:
-                        valid_moves.append(((x, y), tuple(move)))  # Упаковываем стартовую и конечную координаты
+                        valid_moves.append(((x, y), tuple(move)))
 
         return valid_moves
+
+    def to_fen(self, game_logic):
+        fen_matrix = ""
+        for row in self.board:
+            empty_count = 0
+            for piece in row:
+                if piece is None:
+                    empty_count += 1
+                else:
+                    if empty_count > 0:
+                        fen_matrix += str(empty_count)
+                        empty_count = 0
+                    representation = piece.name.upper() if piece.color == 'W' else piece.name.lower()
+                    fen_matrix += representation
+            if empty_count > 0:
+                fen_matrix += str(empty_count)
+            fen_matrix += "/"
+
+        fen_matrix = fen_matrix.rstrip("/")
+
+        fen_color = game_logic.current_turn.lower()
+
+        castling_rights = []
+        if self.white_below:
+            if self.board[7][4] and self.board[7][4].name == 'K' and not self.board[7][4].already_moved:
+                if self.board[7][7] and self.board[7][7].name == 'R' and not self.board[7][7].already_moved:
+                    castling_rights.append("K")
+                if self.board[7][0] and self.board[7][0].name == 'R' and not self.board[7][0].already_moved:
+                    castling_rights.append("Q")
+            if self.board[0][4] and self.board[0][4].name == 'K' and not self.board[0][4].already_moved:
+                if self.board[0][7] and self.board[0][7].name == 'R' and not self.board[0][7].already_moved:
+                    castling_rights.append("k")
+                if self.board[0][0] and self.board[0][0].name == 'R' and not self.board[0][0].already_moved:
+                    castling_rights.append("q")
+        else:
+            if self.board[0][3] and self.board[0][3].name == 'K' and not self.board[0][3].already_moved:
+                if self.board[0][7] and self.board[0][7].name == 'R' and not self.board[0][7].already_moved:
+                    castling_rights.append("Q")
+                if self.board[0][0] and self.board[0][0].name == 'R' and not self.board[0][0].already_moved:
+                    castling_rights.append("K")
+            if self.board[7][3] and self.board[7][3].name == 'K' and not self.board[7][3].already_moved:
+                if self.board[7][7] and self.board[7][7].name == 'R' and not self.board[7][7].already_moved:
+                    castling_rights.append("q")
+                if self.board[7][0] and self.board[7][0].name == 'R' and not self.board[7][0].already_moved:
+                    castling_rights.append("k")
+        fen_castling = "".join(castling_rights) if castling_rights else "-"
+
+        fen_en_passant = "-"
+        for y, row in enumerate(self.board):
+            for x, piece in enumerate(row):
+                if isinstance(piece, Pawn) and piece.possibility_of_en_passant:
+                    fen_en_passant = f"{chr(97 + x)}{8 - y - 1}"
+                    break
+
+        fen_halfmove = game_logic.half_move_count
+        fen_fullmove = len(game_logic.move_history)
+
+        fen_string = f"{fen_matrix} {fen_color} {fen_castling} {fen_en_passant} {fen_halfmove} {fen_fullmove}"
+        return fen_string

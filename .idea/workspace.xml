@@ -5,121 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d7e1c7c-5f9d-4815-a7b2-204447e928ce" name="Changes" comment="Raw AI">
-      <change afterPath="$PROJECT_DIR$/.idea/Chess.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/config.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/neat_ai.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/AUTHORS" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/CITATION.cff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/CONTRIBUTING.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/Copying.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/Top CPU Contributors.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/scripts/get_native_properties.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/scripts/net.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/benchmark.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/benchmark.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/bitboard.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/bitboard.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/engine.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/engine.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/evaluate.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/evaluate.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/history.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/incbin/UNLICENCE" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/incbin/incbin.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/main.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/memory.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/memory.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/misc.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/misc.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/movegen.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/movegen.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/movepick.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/movepick.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/features/half_ka_v2_hm.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/features/half_ka_v2_hm.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/layers/affine_transform.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/layers/affine_transform_sparse_input.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/layers/clipped_relu.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/layers/simd.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/layers/sqr_clipped_relu.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/network.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/network.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/nnue_accumulator.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/nnue_accumulator.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/nnue_architecture.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/nnue_common.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/nnue_feature_transformer.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/nnue_misc.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/nnue/nnue_misc.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/numa.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/perft.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/position.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/position.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/score.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/score.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/search.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/search.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/syzygy/tbprobe.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/syzygy/tbprobe.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/thread.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/thread.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/thread_win32_osx.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/timeman.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/timeman.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/tt.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/tt.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/tune.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/tune.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/types.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/uci.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/uci.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/ucioption.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/src/ucioption.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/stockfish-windows-x86-64-avx2.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/wiki/Advanced-topics.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/wiki/Compiling-from-source.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/wiki/Developers.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/wiki/Download-and-usage.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/wiki/Governance-and-responsibilities.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/wiki/Home.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/wiki/Regression-Tests.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/wiki/Stockfish-FAQ.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/wiki/Terminology.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/wiki/UCI-&amp;-Commands.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/wiki/Useful-data.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AI/stockfish/wiki/_Footer.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Avatars/Bot1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Avatars/Player.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Fonts/CHEQ_TT.TTF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Fonts/Montserrat-Italic-VariableFont_wght.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Fonts/Montserrat-VariableFont_wght.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Fonts/Typography Times Bold.ttf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Pieces/BB.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Pieces/BW.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Pieces/KB.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Pieces/KW.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Pieces/NB.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Pieces/NW.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Pieces/PB.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Pieces/PW.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Pieces/QB.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Pieces/QW.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Pieces/RB.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Pieces/RW.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/board.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/constants.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/game_logic.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/menu.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pieces.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/renderer.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/config.txt" beforeDir="false" afterPath="$PROJECT_DIR$/AI/config.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AI/neat_ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/AI/neat_ai.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/board.py" beforeDir="false" afterPath="$PROJECT_DIR$/board.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game_logic.py" beforeDir="false" afterPath="$PROJECT_DIR$/game_logic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/renderer.py" beforeDir="false" afterPath="$PROJECT_DIR$/renderer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,7 +45,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "com.codeium.enabled": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "D:/Python/TeleBots/Schedule",
     "settings.editor.selected.configurable": "vcs.Git"
   }
@@ -234,16 +126,5 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Raw AI" />
     <option name="LAST_COMMIT_MESSAGE" value="Raw AI" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AI/neat_ai.py</url>
-          <line>83</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

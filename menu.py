@@ -27,20 +27,17 @@ class MenuManager:
             if font.size(test_line)[0] <= max_width:
                 current_line = test_line
             else:
-                # Отрисовка текущей строки и переход к новой
                 rendered_line = font.render(current_line, True, COLOR_TEXT_OUTSIDE_BUTTON)
                 line_x = menu_x + (self.menu_size[0] // 2 - rendered_line.get_width() // 2)
                 self.window.blit(rendered_line, (line_x, text_y))
-                text_y += rendered_line.get_height() + 5  # Переход на следующую строку
-                current_line = word  # Начало новой строки
+                text_y += rendered_line.get_height() + 5
+                current_line = word
 
-        # Отрисовка остатка текста
         if current_line:
             rendered_line = font.render(current_line, True, COLOR_TEXT_OUTSIDE_BUTTON)
             line_x = menu_x + (self.menu_size[0] // 2 - rendered_line.get_width() // 2)
             self.window.blit(rendered_line, (line_x, text_y))
 
-        # Возвращаем последнюю вертикальную координату для дальнейших элементов
         return text_y
 
 
@@ -67,7 +64,7 @@ class MenuManager:
 
             result_text = "Win!" if player_color != loser_color else "Defeat!"
 
-            full_summary = result_text + score_text # WRONG NAME??
+            full_summary = result_text + score_text # WRONG NAMES??
         elif result == "stalemate":
             full_summary = "Stalemate!"
         else:
@@ -142,3 +139,46 @@ class MenuManager:
                     elif exit_button.collidepoint(mouse_x, mouse_y):
                         pygame.quit()
                         return False
+
+    def draw_promotion_menu(self, color):
+        menu_width = 300
+        menu_height = 200
+        screen_width, screen_height = self.window.get_size()
+        menu_x = (screen_width - menu_width) // 2
+        menu_y = (screen_height - menu_height) // 2
+        menu_rect = pygame.Rect(menu_x, menu_y, menu_width, menu_height)
+
+        pygame.draw.rect(self.window, COLOR_MENU_BG, menu_rect)
+        pygame.draw.rect(self.window, COLOR_MENU_BORDER, menu_rect, 5)
+
+        font_title = FONT_TITLE
+        promotion_text = "Выберите фигуру для превращения:"
+        text = font_title.render(promotion_text, True, COLOR_TEXT_OUTSIDE_BUTTON)
+        self.window.blit(text, (menu_x + (menu_width - text.get_width()) // 2, menu_y + 20))
+
+        button_width = 60
+        button_height = 60
+        piece_options = ['Q', 'R', 'B', 'N']
+        buttons = []
+
+        for i, piece_name in enumerate(piece_options):
+            button_x = menu_x + 20 + (button_width + 20) * i
+            button_y = menu_y + 80
+            button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
+            pygame.draw.rect(self.window, COLOR_BUTTON, button_rect, border_radius=5)
+            pygame.draw.rect(self.window, COLOR_BUTTON_BORDER, button_rect, 2, border_radius=5)
+
+            text = FONT_TEXT.render(piece_name, True, COLOR_TEXT)
+            self.window.blit(text, (button_x + (button_width - text.get_width()) // 2,
+                                    button_y + (button_height - text.get_height()) // 2))
+            buttons.append((button_rect, piece_name))
+
+        pygame.display.update()
+
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    mouse_x, mouse_y = pygame.mouse.get_pos()
+                    for button_rect, piece_name in buttons:
+                        if button_rect.collidepoint(mouse_x, mouse_y):
+                            return piece_name
