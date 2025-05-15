@@ -1,0 +1,214 @@
+import neat
+import numpy as np
+import chess
+import chess.engine
+import pickle
+
+
+class NeatChessAI:
+    def __init__(self, config_path, color):
+        self.color = color
+        self.config = neat.Config(
+            neat.DefaultGenome,
+            neat.DefaultReproduction,
+            neat.DefaultSpeciesSet,
+            neat.DefaultStagnation,
+            config_path
+        )
+        self.population = None
+        self.load_population()
+        self.engine_path = "D:/Python/Chess/AI/stockfish/stockfish-windows-x86-64-avx2.exe"
+        self.engine = chess.engine.SimpleEngine.popen_uci(self.engine_path)
+
+    def save_population(self):
+        with open("trained_population.pkl", "wb") as f:
+            pickle.dump(self.population, f)
+
+    def load_population(self):
+        try:
+            with open("trained_population.pkl", "rb") as f:
+                self.population = pickle.load(f)
+        except FileNotFoundError:
+            self.population = neat.Population(self.config)
+
+    def board_to_input(self, chess_board, game_logic):
+        input_vector = []
+        for row in chess_board.board:
+            for piece in row:
+                if piece is None:
+                    input_vector.append(0)
+                else:
+                    piece_value = {
+                        'P': 1, 'N': 2, 'B': 3, 'R': 4, 'Q': 5, 'K': 6
+                    }.get(piece.name.upper(), 0)
+                    input_vector.append(piece_value if piece.color == 'W' else -piece_value)
+
+        input_vector.append(1 if game_logic.current_turn == 'W' else -1)
+
+        return input_vector
+
+    def evaluate_genome(self, genome, config, chess_board, game_logic):
+        inputs = np.array(self.board_to_input(chess_board, game_logic))
+        net = neat.nn.FeedForwardNetwork.create(genome, config)
+
+        valid_moves = chess_board.get_valid_moves(game_logic.current_turn)
+        outputs = net.activate(inputs)
+
+        valid_outputs = [-float('inf')] * len(outputs)
+        for i, (start_pos, end_pos) in enumerate(valid_moves):
+            start_index = start_pos[1] * 8 + start_pos[0]
+            end_index = end_pos[1] * 8 + end_pos[0]
+            if 0 <= start_index < 64 and 0 <= end_index < 64:
+                valid_outputs[i] = outputs[i]
+
+        best_move_index = np.argmax(valid_outputs)
+        if valid_outputs[best_move_index] == -float('inf'):
+            raise ValueError("Нет подходящих выходов из нейронной сети для текущих ходов.")
+
+        start_pos, end_pos = valid_moves[best_move_index]
+        return start_pos, end_pos
+
+    def evaluate_fitness(self, board, result, turn_color, game_logic):
+        central_positions = [(3, 3), (3, 4), (4, 3), (4, 4)]
+        control_center_bonus = 0
+
+        for y, row in enumerate(board.board):
+            for x, piece in enumerate(row):
+                if piece and piece.color == turn_color and (x, y) in central_positions:
+                    control_center_bonus += 1
+
+        ai_color = self.color
+        player_color = 'W' if ai_color == 'B' else 'B'
+        ai_points = game_logic.scores[ai_color]
+        player_points = game_logic.scores[player_color]
+
+        points_difference_bonus = max(0, ai_points - player_points)
+
+        if result == "win":
+            fitness = 100
+        elif result == "loss":
+            fitness = 0
+        else:
+            fitness = 50
+
+        return fitness + control_center_bonus + points_difference_bonus
+
+    def make_move(self, chess_board, game_logic):
+        for genome_id, genome in self.population.population.items():
+            start_pos, end_pos = None, None
+            try:
+                start_pos, end_pos = self.evaluate_genome(genome, self.config, chess_board, game_logic)
+
+                valid_moves = chess_board.get_valid_moves(game_logic.current_turn)
+                if (start_pos, end_pos) in valid_moves:
+                    stockfish_board = chess.Board(chess_board.to_fen(game_logic))
+                    print(stockfish_board)
+
+                    prev_eval = self.analyze_position_with_stockfish(stockfish_board)
+
+                    uci_move = f"{chr(97 + start_pos[0])}{8 - start_pos[1]}{chr(97 + end_pos[0])}{8 - end_pos[1]}"
+                    stockfish_board.push(chess.Move.from_uci(uci_move))
+
+                    post_eval = self.analyze_position_with_stockfish(stockfish_board)
+
+                    evaluation_change = post_eval - prev_eval
+
+                    chess_board.move_piece(start_pos, end_pos, chess_board, game_logic)
+
+                    if genome.fitness is None:
+                        genome.fitness = 0
+
+                    genome.fitness += evaluation_change / 10
+
+                    target_piece = chess_board.board[end_pos[1]][end_pos[0]]
+                    if target_piece and target_piece.color != game_logic.current_turn:
+                        genome.fitness += 5
+
+                    self.save_population()
+
+                    game_logic.switch_turn()
+                    return
+            except (ValueError, IndexError) as e:
+                print(f"Ошибка выполнения хода {start_pos}->{end_pos}: {e}")
+
+        for genome_id, genome in self.population.population.items():
+            genome.fitness = genome.fitness - 1 if genome.fitness is not None else -1
+        print("Не удалось сделать допустимый ход!")
+
+    def simulate_game(self, chess_board, game_logic, net):
+        temp_board = chess_board.copy()
+        temp_game_logic = game_logic.copy()
+        result = None
+
+        for _ in range(100):
+            inputs = np.array(self.board_to_input(temp_board, temp_game_logic.current_turn))
+            outputs = net.activate(inputs)
+
+            valid_moves = temp_board.get_valid_moves(temp_game_logic.current_turn)
+
+            if not valid_moves:
+                result = "draw"
+                return result, temp_game_logic
+
+            valid_start_indices, valid_end_indices = set(), set()
+            for start_pos, end_pos in valid_moves:
+                valid_start_indices.add(start_pos[1] * 8 + start_pos[0])
+                valid_end_indices.add(end_pos[1] * 8 + end_pos[0])
+
+            valid_choice = False
+            try_count = 0
+            while not valid_choice:
+                start_index = np.argmax(outputs[:64])
+                end_index = np.argmax(outputs[64:])
+
+                if try_count > len(valid_moves):
+                    print("Ошибка: AI не может выбрать валидный ход")
+                    return "draw", temp_game_logic
+
+                if start_index in valid_start_indices and end_index in valid_end_indices:
+                    start_pos, end_pos = (start_index % 8, start_index // 8), (end_index % 8, end_index // 8)
+                    valid_choice = True
+                else:
+                    outputs[start_index] = float('-inf')
+                    outputs[64 + end_index] = float('-inf')
+                    try_count += 1
+
+            try:
+                temp_board.move_piece(start_pos, end_pos, temp_board, temp_game_logic)
+            except ValueError as e:
+                print(f"Ошибка выполнения хода {start_pos}->{end_pos}: {e}")
+                break
+
+            result_state = temp_board.check_game_state(temp_game_logic)
+            if result_state == "checkmate":
+                result = "win" if temp_game_logic.current_turn != self.color else "loss"
+                break
+            elif result_state == "stalemate":
+                result = "draw"
+                break
+
+            temp_game_logic.switch_turn()
+
+        return result, temp_game_logic
+
+    def analyze_position_with_stockfish(self, board, depth=6):
+        try:
+            result = self.engine.analyse(board, chess.engine.Limit(depth=depth))
+            score = result["score"].pov(self.color)
+            if score.is_mate():
+                return 1000 if score.mate() > 0 else -1000
+            cp_value = score.cp
+            if cp_value is None:
+                mate_in_moves = result["score"].pov(self.color).mate()
+                if mate_in_moves > 0:
+                    return 1000
+                else:
+                    return -1000
+            return cp_value / 100
+        except Exception as e:
+            print(f"Ошибка анализа позиции Stockfish: {e}")
+            return 0
+
+    def fen_to_vector(self, fen_string):
+        vector = [ord(char) for char in fen_string if char != ' ']
+        return vector
